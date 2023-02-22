@@ -2,6 +2,7 @@ body {
    font-family: 'Roboto', 'sans-serif';
    background-color: #a7a7a4;
    overflow: hidden;
+   user-select: none;
 }
 
 .container {
@@ -87,6 +88,14 @@ body {
    font-size: 18px;
    font-weight: 400;
    color: white;
+}
+
+.main-reloader {
+   position: fixed;
+   right: 30px;
+   top: 30px;
+   font-size: 50px;
+   color: #484848;
 }
 
 [class^="btn-"]:hover {

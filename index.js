@@ -1,3 +1,16 @@
+const body = document.body;
+const mainContent = document.querySelector(".question");
+const mainCounter = document.querySelector(".counter");
+const btnFalse = document.querySelector(".btn-false");
+const btnTrue = document.querySelector(".btn-true");
+const btnReload = document.querySelector(".btn-reload");
+const resBanner = document.querySelector(".results-banner");
+const btnContinue = document.querySelector(".btn-continiue");
+const resMessageTrue = document.querySelector(".res__true");
+const resMessageFalse = document.querySelector(".res__false");
+const mainRes = document.querySelector('.main_res');
+const mainReloader = document.querySelector('.main-reloader');
+
 let base = [
    "What is unit test?",
    "What is API testing?",
@@ -17,7 +30,7 @@ let base = [
    "Describe a bug?",
    "What is the difference between Software Testing and Software QA?",
    "What is Software Quality?",
-   "What is a business requirements document? (BRD)",
+   "What is a business requirements document? (BRD)?",
    "What is Software Usability?",
    "Bug Report: components field, basic elements?",
    "What is software Quality Assurance?",
@@ -64,36 +77,47 @@ let base = [
    "What  is the prime objective of a Bug Tracking Database",
    "On  who depends on quality of the computer software?",
    "Is  it any difference between web site and web application? Or just  different words to describe?",
-   "Four  levels of testing:",
+   "Four  levels of testing:?",
    "What  is the difference between Cache and Cookies?",
    "Types  of applications",
-   "World  Wide Web",
+   "World  Wide Web?",
 ]
 
 
+let wrongAnsw = [];   
+let trueAnsw = [];   
+let arrCounter = 0;
+let resTrueCount = 0;
+let resFalseCount = 0;
 
+if (localStorage.trueAnswArr !== undefined) {
+   trueAnsw = localStorage.trueAnswArr.split("///");   
+   resMessageTrue.textContent = trueAnsw.length;
 
+   for(let i = 0; i < trueAnsw.length; i++) {
+     base = base.filter((n) => {return n != trueAnsw[i]});
+   }
+}
 
+if (localStorage.wrongAnswArr !== undefined) {
+   wrongAnsw = localStorage.wrongAnswArr.split("///");
+   resMessageFalse.textContent = wrongAnsw.length; 
+   
+   for(let i = 0; i < wrongAnsw.length; i++) {
+      base = base.filter((n) => {return n != wrongAnsw[i]});
+   }
+}
 
-const body = document.body;
-const mainContent = document.querySelector(".question");
-const mainCounter = document.querySelector(".counter");
-const btnFalse = document.querySelector(".btn-false");
-const btnTrue = document.querySelector(".btn-true");
-const btnReload = document.querySelector(".btn-reload");
-const resBanner = document.querySelector(".results-banner");
-const btnContinue = document.querySelector(".btn-continiue");
-const resMessageTrue = document.querySelector(".res__true");
-const resMessageFalse = document.querySelector(".res__false");
-const mainRes = document.querySelector('.main_res');
+const setLocStorage = () => {
+   localStorage.setItem('baseArr' , base.join("///"));   
+}
+
 
 btnContinue.disabled = false;
 
 let copyBase = Object.assign([], base);
-let wrongAnsw = [];   
-let arrCounter = 0;
-let resTrueCount = 0;
-let resFalseCount = 0;
+
+
 
 const showInitial = () => {
    mainContent.textContent = copyBase[Math.floor(Math.random() * copyBase.length)];
@@ -109,12 +133,17 @@ const showNextValue = (test) => {
    copyBase.splice(copyBase.indexOf(mainContent.textContent), 1);
 
    if(test === true) {
+      trueAnsw.push(mainContent.textContent);
+      localStorage.setItem('trueAnswArr' , trueAnsw.join("///"));      
+
       resTrueCount++;
       resMessageTrue.textContent = resTrueCount;      
    }
 
    if(test === false) {
       wrongAnsw.push(mainContent.textContent);
+      localStorage.setItem('wrongAnswArr' , wrongAnsw.join("///"));
+      
       resFalseCount++;
       resMessageFalse.textContent = resFalseCount;
    }
@@ -128,6 +157,7 @@ const showNextValue = (test) => {
       mainRes.textContent = Math.floor((resTrueCount  * 100) / base.length); 
       arrCounter = 0;      
       base = Object.assign([], wrongAnsw);
+      setLocStorage();
       copyBase = Object.assign([], base);
       wrongAnsw = [];
       resBanner.classList.remove('hidden');
@@ -138,15 +168,18 @@ const showNextValue = (test) => {
    }
 }
 
-const restart = () => {
+const continueLearn = () => {
    resBanner.classList.add('hidden');
    resTrueCount = 0;
    resFalseCount = 0;
    resMessageTrue.textContent = resTrueCount;
-   resMessageFalse.textContent = resFalseCount;
+   resMessageFalse.textContent = resFalseCount;  
 }
 
 btnTrue.addEventListener("click", function() {showNextValue(true)});
 btnFalse.addEventListener("click", () => showNextValue(false));
-btnReload.addEventListener('click', () => location.reload());
-btnContinue.addEventListener('click', function() {restart(); showInitial()})
+btnReload.addEventListener('click', function() {location.reload(); localStorage.clear();});
+btnContinue.addEventListener('click', function() {continueLearn(); showInitial()})
+mainReloader.addEventListener('click', function() {location.reload(); localStorage.clear();});
+
+
