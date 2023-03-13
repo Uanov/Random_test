@@ -81,6 +81,17 @@ let base = [
    "What  is the difference between Cache and Cookies?",
    "Types  of applications",
    "World  Wide Web?",
+   "What ia ad-hoc testing?",
+   "What is the most frequently executed type of testing?",
+   "What makes Software testing profession attractive to you? Why QA?",
+   "Why software testers are needed if developers test their code anyway?",
+   "What is Equivalence Class?",
+    "What is API?",
+    "What is URL?",
+    "What is HTTP, HTTPs",
+    "What is status code? Which do you know?",
+    "What is JSON, XML?",
+    "What is REST?",
 ]
 
 

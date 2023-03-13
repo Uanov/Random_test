@@ -43,6 +43,10 @@ body {
    justify-content: space-around;
 }
 
+.question {
+    user-select: text;
+}
+
 .results-banner {
    position: fixed;
    top: 0;
