@@ -96,14 +96,10 @@ let base = [
 
 
 let wrongAnsw = [];   
-let trueAnsw = [];   
-let arrCounter = 0;
-let resTrueCount = 0;
-let resFalseCount = 0;
+let trueAnsw = [];
 
 if (localStorage.trueAnswArr !== undefined) {
-   trueAnsw = localStorage.trueAnswArr.split("///");   
-   resMessageTrue.textContent = trueAnsw.length;
+   trueAnsw = localStorage.trueAnswArr.split("///");
 
    for(let i = 0; i < trueAnsw.length; i++) {
      base = base.filter((n) => {return n != trueAnsw[i]});
@@ -111,8 +107,7 @@ if (localStorage.trueAnswArr !== undefined) {
 }
 
 if (localStorage.wrongAnswArr !== undefined) {
-   wrongAnsw = localStorage.wrongAnswArr.split("///");
-   resMessageFalse.textContent = wrongAnsw.length; 
+   wrongAnsw = localStorage.wrongAnswArr.split("///");    
    
    for(let i = 0; i < wrongAnsw.length; i++) {
       base = base.filter((n) => {return n != wrongAnsw[i]});
@@ -128,11 +123,11 @@ btnContinue.disabled = false;
 
 let copyBase = Object.assign([], base);
 
-
-
 const showInitial = () => {
    mainContent.textContent = copyBase[Math.floor(Math.random() * copyBase.length)];
    mainCounter.textContent = base.length;
+   resMessageTrue.textContent = trueAnsw.length;
+   resMessageFalse.textContent = wrongAnsw.length;
 }
 
 showInitial();
@@ -145,32 +140,31 @@ const showNextValue = (test) => {
 
    if(test === true) {
       trueAnsw.push(mainContent.textContent);
-      localStorage.setItem('trueAnswArr' , trueAnsw.join("///"));      
-
-      resTrueCount++;
-      resMessageTrue.textContent = resTrueCount;      
+      localStorage.setItem('trueAnswArr' , trueAnsw.join("///")); 
+      resMessageTrue.textContent = trueAnsw.length;     
    }
 
    if(test === false) {
       wrongAnsw.push(mainContent.textContent);
-      localStorage.setItem('wrongAnswArr' , wrongAnsw.join("///"));
+      localStorage.setItem('wrongAnswArr' , wrongAnsw.join("///"));  
       
-      resFalseCount++;
-      resMessageFalse.textContent = resFalseCount;
+      resMessageFalse.textContent = wrongAnsw.length;
    }
 
    let randArr = Math.floor(Math.random() * copyBase.length);
    
-   mainContent.textContent = copyBase[randArr];
-   arrCounter++;  
+   mainContent.textContent = copyBase[randArr];   
 
-   if(arrCounter === base.length) {     
-      mainRes.textContent = Math.floor((resTrueCount  * 100) / base.length); 
-      arrCounter = 0;      
+   console.log(trueAnsw.length + wrongAnsw.length, base.length);
+
+   if(copyBase.length === 0) { 
+      mainRes.textContent = Math.floor((trueAnsw.length  * 100) / (trueAnsw.length + wrongAnsw.length)); 
+      console.log(trueAnsw)    
       base = Object.assign([], wrongAnsw);
       setLocStorage();
       copyBase = Object.assign([], base);
       wrongAnsw = [];
+      trueAnsw = [];
       resBanner.classList.remove('hidden');
 
       if(!base.length) {        
@@ -180,11 +174,7 @@ const showNextValue = (test) => {
 }
 
 const continueLearn = () => {
-   resBanner.classList.add('hidden');
-   resTrueCount = 0;
-   resFalseCount = 0;
-   resMessageTrue.textContent = resTrueCount;
-   resMessageFalse.textContent = resFalseCount;  
+   resBanner.classList.add('hidden');   
 }
 
 btnTrue.addEventListener("click", function() {showNextValue(true)});
@@ -192,5 +182,3 @@ btnFalse.addEventListener("click", () => showNextValue(false));
 btnReload.addEventListener('click', function() {location.reload(); localStorage.clear();});
 btnContinue.addEventListener('click', function() {continueLearn(); showInitial()})
 mainReloader.addEventListener('click', function() {location.reload(); localStorage.clear();});
-
-
