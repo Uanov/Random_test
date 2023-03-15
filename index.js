@@ -12,7 +12,7 @@ const mainRes = document.querySelector('.main_res');
 const mainReloader = document.querySelector('.main-reloader');
 
 let base = [
-   "What is unit test?",
+  /* "What is unit test?",
    "What is API testing?",
    "What is Perfomance testing?",
    "Discribe the QA Process?",
@@ -81,41 +81,43 @@ let base = [
    "What  is the difference between Cache and Cookies?",
    "Types  of applications",
    "World  Wide Web?",
-   "What ia ad-hoc testing?",
+   "What ia ad-hoc testing?",*/
    "What is the most frequently executed type of testing?",
    "What makes Software testing profession attractive to you? Why QA?",
    "Why software testers are needed if developers test their code anyway?",
    "What is Equivalence Class?",
-    "What is API?",
-    "What is URL?",
-    "What is HTTP, HTTPs",
-    "What is status code? Which do you know?",
-    "What is JSON, XML?",
-    "What is REST?",
+   "What is API?",
+   "What is URL?",
+   "What is HTTP, HTTPs",
+   "What is status code? Which do you know?",
+   "What is JSON, XML?",
+   "What is REST?",
 ]
 
 
 let wrongAnsw = [];   
 let trueAnsw = [];
 
-if (localStorage.trueAnswArr !== undefined) {
-   trueAnsw = localStorage.trueAnswArr.split("///");
-
-   for(let i = 0; i < trueAnsw.length; i++) {
-     base = base.filter((n) => {return n != trueAnsw[i]});
-   }
-}
-
-if (localStorage.wrongAnswArr !== undefined) {
-   wrongAnsw = localStorage.wrongAnswArr.split("///");    
+// if (localStorage.trueAnswArr !== undefined) {
+//    trueAnsw = localStorage.trueAnswArr.split(" /// ");
    
-   for(let i = 0; i < wrongAnsw.length; i++) {
-      base = base.filter((n) => {return n != wrongAnsw[i]});
-   }
-}
+
+//    for(let i = 0; i < trueAnsw.length; i++) {
+//      base = base.filter((n) => {return n != trueAnsw[i]});
+//    }
+// }
+
+// if (localStorage.wrongAnswArr !== undefined) {
+//    wrongAnsw = localStorage.wrongAnswArr.split(" /// ");    
+   
+
+//    for(let i = 0; i < wrongAnsw.length; i++) {
+//       base = base.filter((n) => {return n != wrongAnsw[i]});
+//    }
+// }
 
 const setLocStorage = () => {
-   localStorage.setItem('baseArr' , base.join("///"));   
+   localStorage.setItem('copyBaseState' , copyBase.join(" /// "));  
 }
 
 
@@ -125,7 +127,7 @@ let copyBase = Object.assign([], base);
 
 const showInitial = () => {
    mainContent.textContent = copyBase[Math.floor(Math.random() * copyBase.length)];
-   mainCounter.textContent = base.length;
+   mainCounter.textContent = copyBase.length;
    resMessageTrue.textContent = trueAnsw.length;
    resMessageFalse.textContent = wrongAnsw.length;
 }
@@ -134,32 +136,31 @@ showInitial();
 
 const showNextValue = (test) => {
 
-   mainCounter.textContent = Number(mainCounter.textContent) - 1;
-
    copyBase.splice(copyBase.indexOf(mainContent.textContent), 1);
+
+   setLocStorage();
 
    if(test === true) {
       trueAnsw.push(mainContent.textContent);
-      localStorage.setItem('trueAnswArr' , trueAnsw.join("///")); 
+      localStorage.setItem('trueAnswArr' , trueAnsw.join(" /// ")); 
       resMessageTrue.textContent = trueAnsw.length;     
    }
 
    if(test === false) {
       wrongAnsw.push(mainContent.textContent);
-      localStorage.setItem('wrongAnswArr' , wrongAnsw.join("///"));  
+      localStorage.setItem('wrongAnswArr' , wrongAnsw.join(" /// "));  
       
       resMessageFalse.textContent = wrongAnsw.length;
    }
 
    let randArr = Math.floor(Math.random() * copyBase.length);
    
-   mainContent.textContent = copyBase[randArr];   
-
-   console.log(trueAnsw.length + wrongAnsw.length, base.length);
+   mainContent.textContent = copyBase[randArr];  
+   mainCounter.textContent = copyBase.length;
 
    if(copyBase.length === 0) { 
       mainRes.textContent = Math.floor((trueAnsw.length  * 100) / (trueAnsw.length + wrongAnsw.length)); 
-      console.log(trueAnsw)    
+         
       base = Object.assign([], wrongAnsw);
       setLocStorage();
       copyBase = Object.assign([], base);
@@ -174,7 +175,7 @@ const showNextValue = (test) => {
 }
 
 const continueLearn = () => {
-   resBanner.classList.add('hidden');   
+   resBanner.classList.add('hidden');
 }
 
 btnTrue.addEventListener("click", function() {showNextValue(true)});
