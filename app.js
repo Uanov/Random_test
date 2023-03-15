@@ -13,7 +13,7 @@ const mainRes = document.querySelector('.main_res');
 const mainReloader = document.querySelector('.main-reloader');
 
 const base = [
-  /* "What is unit test?",
+    "What is unit test?",
    "What is API testing?",
    "What is Perfomance testing?",
    "Discribe the QA Process?",
@@ -82,7 +82,7 @@ const base = [
    "What  is the difference between Cache and Cookies?",
    "Types  of applications",
    "World  Wide Web?",
-   "What ia ad-hoc testing?",*/
+   "What ia ad-hoc testing?",
    "What is the most frequently executed type of testing?",
    "What makes Software testing profession attractive to you? Why QA?",
    "Why software testers are needed if developers test their code anyway?",
@@ -109,7 +109,7 @@ const pushState = () => {
 
 if(localStorage.stateItemList !== undefined) {
     state.itemList = localStorage.stateItemList.split(" /// ");    
-    localStorage.stateWrongAnsw.length !== 0 ? state.wrongAnsw = localStorage.stateTrueAnsw.split(" /// ") : state.wrongAnsw = [];
+    localStorage.stateWrongAnsw.length !== 0 ? state.wrongAnsw = localStorage.stateWrongAnsw.split(" /// ") : state.wrongAnsw = [];
     localStorage.stateTrueAnsw.length !== 0 ? state.trueAnsw = localStorage.stateTrueAnsw.split(" /// ") : state.trueAnsw = [];    
 } else {
     state.itemList = Object.assign([], base);
