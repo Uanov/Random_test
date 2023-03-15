@@ -108,9 +108,9 @@ const pushState = () => {
 }
 
 if(localStorage.stateItemList !== undefined) {
-    state.itemList = localStorage.stateItemList.split(" /// ");
-    state.wrongAnsw = localStorage.stateTrueAnsw.split(" /// ");
-    state.trueAnsw = localStorage.stateWrongAnsw.split(" /// ");
+    state.itemList = localStorage.stateItemList.split(" /// ");    
+    localStorage.stateWrongAnsw.length !== 0 ? state.wrongAnsw = localStorage.stateTrueAnsw.split(" /// ") : state.wrongAnsw = [];
+    localStorage.stateTrueAnsw.length !== 0 ? state.trueAnsw = localStorage.stateTrueAnsw.split(" /// ") : state.trueAnsw = [];    
 } else {
     state.itemList = Object.assign([], base);
 }
@@ -138,7 +138,16 @@ const showNextItem = (userResult) => {
     }
 
     if (state.itemList.length === 0) {
+        mainRes.textContent = Math.floor((state.trueAnsw.length  * 100) / (state.trueAnsw.length + state.wrongAnsw.length)); 
         resBanner.classList.remove('hidden');
+        state.itemList = Object.assign([], state.wrongAnsw);
+        state.wrongAnsw = [];
+        state.trueAnsw = [];
+        pushState();
+
+        if(state.itemList.length === 0) {        
+            btnContinue.classList.add('hidden')
+        }
     }
 
     showValues();
@@ -147,15 +156,11 @@ const showNextItem = (userResult) => {
 
 const continueLearn = () => {
     resBanner.classList.add('hidden');
-    state.itemList = Object.assign([], state.wrongAnsw);
-    state.wrongAnsw = [];
-    state.trueAnsw = [];
-    pushState();  
 }
 
 
 btnTrue.addEventListener("click", () => showNextItem(true));
 btnFalse.addEventListener("click", () => showNextItem(false));
-// btnReload.addEventListener('click', function() {location.reload(); localStorage.clear();});
+btnReload.addEventListener('click', () => {location.reload(), localStorage.clear()});
 btnContinue.addEventListener('click', () => {continueLearn(), showValues()})
 mainReloader.addEventListener('click', () => {location.reload(), localStorage.clear()});
