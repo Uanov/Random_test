@@ -20,7 +20,7 @@ const base = [
    "What is the Stress Testing?",
    "What is the test plan?",
    "What is the test matrix?",
-   "How do you write a bug report?",
+   /*"How do you write a bug report?",
    "What is Quality?",
    "What is a Test Case?",
    "What is a functional specification?",
@@ -92,7 +92,7 @@ const base = [
    "What is HTTP, HTTPs",
    "What is status code? Which do you know?",
    "What is JSON, XML?",
-   "What is REST?",
+   "What is REST?",*/
 ]
 
 const state = {
@@ -137,6 +137,8 @@ const showNextItem = (userResult) => {
         state.wrongAnsw.push(mainContent.textContent);        
     }
 
+    showValues();
+
     if (state.itemList.length === 0) {
         mainRes.textContent = Math.floor((state.trueAnsw.length  * 100) / (state.trueAnsw.length + state.wrongAnsw.length)); 
         resBanner.classList.remove('hidden');
@@ -148,14 +150,13 @@ const showNextItem = (userResult) => {
         if(state.itemList.length === 0) {        
             btnContinue.classList.add('hidden')
         }
-    }
-
-    showValues();
+    }    
     pushState();
 }
 
 const continueLearn = () => {
     resBanner.classList.add('hidden');
+    showValues();
 }
 
 
